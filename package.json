@@ -1,0 +1,30 @@
+{
+  "name": "food-villa",
+  "version": "1.0.0",
+  "description": "open source food ordering react app",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dm-lalwani/food-villa.git"
+  },
+  "author": "Dinesh M Lalwani",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dm-lalwani/food-villa/issues"
+  },
+  "homepage": "https://github.com/dm-lalwani/food-villa#readme",
+  "devDependencies": {
+    "parcel": "^2.10.3",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "browserslist": [
+    "defaults and fully supports es6-module",
+    "maintained node versions"
+  ]
+}

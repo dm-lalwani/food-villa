@@ -1,7 +1,5 @@
-const heading = document.createElement("h1");
-heading.innerHTML = "Namaste Everyone from Javascript!";
-const root = document.getElementById("root");
-root.appendChild(heading);
+import React from "react";
+import ReactDOM from "react-dom/client";
 
 const heading2 = React.createElement(
   "h1",
