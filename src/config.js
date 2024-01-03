@@ -1,49 +1,7 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
+export const IMG_CDN_URL =
+  "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/";
 
-/**
-    Header
-        - Logo
-        - Nav Item (right)
-        - Cart
-    Body
-        - Search Bar
-        - Restauraunt List
-        - Cards
-            - Image
-            - Name
-            - Rating
-            - Cuisine
-    Footer
-        - Links
-        - Copyright
- */
-
-const Title = () => (
-  <div className="nav-logo">
-    <a href="/">
-      <img
-        src="https://yt3.ggpht.com/ytc/AMLnZu_EC-ECXAxRAixWGEfMsE1rdSoetBHyxmLNdtCB=s900-c-k-c0x00ffffff-no-rj"
-        alt="logo"
-      ></img>
-    </a>
-  </div>
-);
-
-const Header = () => {
-  return (
-    <div className="navbar">
-      <Title />
-      <div className="nav-links">
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
-        <a href="#">Cart</a>
-      </div>
-    </div>
-  );
-};
-const restaurantList = [
+export const restaurantList = [
   {
     info: {
       id: "444011",
@@ -461,48 +419,3 @@ const restaurantList = [
     },
   },
 ];
-const RestaurantCard = ({ cloudinaryImageId, name, avgRating, cuisines }) => {
-  return (
-    <div className="restaurant-card">
-      <img
-        alt="restaurant-image"
-        src={
-          "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/" +
-          cloudinaryImageId
-        }
-      ></img>
-      <h2 className="restaurant-name">{name}</h2>
-      <h3 className="restaurant-rating">{avgRating} stars</h3>
-      <h4 className="cuisine">{cuisines.join(", ")}</h4>
-    </div>
-  );
-};
-// no key (not acceptable)<<<<<<<<<<< index key(last option) <<<<< unquie key (best practice)
-const Body = () => {
-  return (
-    <div className="restaurant-list">
-      {restaurantList.map((restaurant) => {
-        return <RestaurantCard {...restaurant.info} key={restaurant.info.id} />;
-      })}
-    </div>
-  );
-};
-const Footer = () => (
-  <>
-    <div className="footer">Footer</div>
-  </>
-);
-const AppLayout = () => {
-  return (
-    <>
-      <Header />
-      <Body />
-      <Footer />
-    </>
-  );
-};
-// We can have only one root and one render method throughtout the app
-const root = ReactDOM.createRoot(document.getElementById("root"));
-// passing a react element into the root
-// root2.render(heading2);
-root.render(<AppLayout />);
