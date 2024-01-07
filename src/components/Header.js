@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Logo from "../assets/img/foodVilla.png";
+import { Link } from "react-router-dom";
 
 const Title = () => (
   <div className="nav-logo">
@@ -19,10 +20,10 @@ const Header = () => {
     <div className="navbar">
       <Title />
       <div className="nav-links">
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
-        <a href="#">Cart</a>
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
+        <Link to="/contact">Contact</Link>
+        <Link to="#">Cart</Link>
       </div>
       {isLogin ? (
         <button onClick={() => setIsLogin(false)}>Logout</button>

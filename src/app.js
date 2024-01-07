@@ -1,9 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-
 import Header from "./components/Header";
 import Body from "./components/Body";
 import Footer from "./components/Footer";
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import About from "./components/About";
+import Contact from "./components/Contact";
+import Error from "./components/Error";
+import RestMenu from "./components/RestMenu";
 
 /**
     Header
@@ -27,13 +31,39 @@ const AppLayout = () => {
   return (
     <>
       <Header />
-      <Body />
+      <Outlet />
       <Footer />
     </>
   );
 };
+
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <AppLayout />,
+    errorElement: <Error />,
+    children: [
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
+      },
+      {
+        path: "/",
+        element: <Body />,
+      },
+      {
+        path: "/restaurant/:resId",
+        element: <RestMenu />,
+      },
+    ],
+  },
+]);
 // We can have only one root and one render method throughtout the app
 const root = ReactDOM.createRoot(document.getElementById("root"));
 // passing a react element into the root
 // root2.render(heading2);
-root.render(<AppLayout />);
+root.render(<RouterProvider router={appRouter} />);

@@ -2,6 +2,7 @@
 import RestaurantCard from "./RestaurantCard";
 import { useState, useEffect } from "react"; // Named Import
 import Shimmer from "./Shimmer";
+import { Link } from "react-router-dom";
 
 // let searchText = "KFC";
 // searchText is a local state variable
@@ -35,10 +36,10 @@ const Body = () => {
     console.log(json);
     // Optional Chaining
     setAllRestaurants(
-      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+      json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
     setFilteredRestaurants(
-      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+      json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
   }
 
@@ -87,9 +88,16 @@ const Body = () => {
         {filteredRestaurants.length == 0 ? (
           <h2>Not found</h2>
         ) : (
-          filteredRestaurants.map((restaurant) => (
-            <RestaurantCard {...restaurant.info} key={restaurant.info.id} />
-          ))
+          filteredRestaurants.map((restaurant) => {
+            return (
+              <Link
+                to={"/restaurant/" + restaurant.info.id}
+                key={restaurant.info.id}
+              >
+                <RestaurantCard {...restaurant.info} />
+              </Link>
+            );
+          })
         )}
       </div>
     </>

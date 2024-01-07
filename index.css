@@ -33,3 +33,6 @@
   margin: 10px;
   background-color: lightgrey;
 }
+.menu {
+  display: flex;
+}
