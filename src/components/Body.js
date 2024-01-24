@@ -21,6 +21,8 @@ const Body = () => {
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [allRestaurants, setAllRestaurants] = useState([]);
 
+  console.log(useState());
+
   // empty dependency array => once after render
   // dep array [searchText] => once after initial render + everytime after searchtext gets updated
   useEffect(() => {
@@ -36,14 +38,12 @@ const Body = () => {
     console.log(json);
     // Optional Chaining
     setAllRestaurants(
-      json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
     setFilteredRestaurants(
-      json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
   }
-
-  console.log("render");
 
   // not render component (Early return )
   if (!allRestaurants)

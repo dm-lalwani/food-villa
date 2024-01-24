@@ -14,7 +14,7 @@ const RestMenu = () => {
   async function getRestaurantInfo() {
     const data = await fetch(MENU_CDN_URL + resId);
     const json = await data.json();
-    console.log(json);
+    // console.log(json);
     setRestaurantInfo(json.data);
   }
   if (restaurantInfo === null) return <Shimmer />;
