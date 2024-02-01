@@ -10,6 +10,7 @@ import Error from "./components/Error";
 import RestMenu from "./components/RestMenu";
 import ProfileClass from "./components/ProfileClass";
 import Profile from "./components/Profile";
+import Login from "./components/Login";
 
 /**
     Header
@@ -66,6 +67,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/restaurant/:resId",
         element: <RestMenu />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
       },
     ],
   },

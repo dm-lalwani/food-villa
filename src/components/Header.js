@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Logo from "../assets/img/foodVilla.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Title = () => (
   <div className="nav-logo">
@@ -16,6 +16,7 @@ const Title = () => (
 
 const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
+  const navigate = useNavigate();
   return (
     <div className="navbar">
       <Title />
@@ -28,7 +29,14 @@ const Header = () => {
       {isLogin ? (
         <button onClick={() => setIsLogin(false)}>Logout</button>
       ) : (
-        <button onClick={() => setIsLogin(true)}>Login</button>
+        <button
+          onClick={() => {
+            setIsLogin(true);
+            navigate("/login");
+          }}
+        >
+          Login
+        </button>
       )}
     </div>
   );
