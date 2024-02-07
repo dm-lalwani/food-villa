@@ -3,21 +3,21 @@ import ProfileClass from "./ProfileClass";
 import Profile from "./Profile";
 import { Component } from "react";
 class About extends Component {
-  constructor(props) {
-    super(props);
-    console.log("Parent Constructor");
-  }
-  componentDidMount() {
-    console.log("Parent componentDidMount");
-  }
-  componentDidUpdate() {
-    console.log("Parent componentDidUpdate");
-  }
-  componentWillUnmount() {
-    console.log("Parent componentWillUnmount");
-  }
+  // constructor(props) {
+  //   super(props);
+  //   console.log("Parent Constructor");
+  // }
+  // componentDidMount() {
+  //   console.log("Parent componentDidMount");
+  // }
+  // componentDidUpdate() {
+  //   console.log("Parent componentDidUpdate");
+  // }
+  // componentWillUnmount() {
+  //   console.log("Parent componentWillUnmount");
+  // }
   render() {
-    console.log("Parent Render");
+    // console.log("Parent Render");
     return (
       <>
         <h1>This is a About Us Page!!!</h1>

@@ -5,8 +5,20 @@ const Profile = (props) => {
   const [count2, setConunt2] = useState(0);
   useEffect(() => {
     console.log("Inside useEffect");
+
+    const timer = setInterval(() => {
+      console.log("Namaste React OP");
+    }, 2000);
+
+    return () => {
+      //cleanup function
+      clearInterval(timer);
+      console.log("clean up");
+    };
   }, [count1, count2]);
+
   console.log("Start Rendering");
+
   return (
     <>
       <h2>Profile Functional Component</h2>

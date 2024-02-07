@@ -1,50 +1,38 @@
-// import { restaurantList } from "../config";
 import RestaurantCard from "./RestaurantCard";
 import { useState, useEffect } from "react"; // Named Import
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
-
-// let searchText = "KFC";
-// searchText is a local state variable
-// To create state variable
-
-function filterData(searchText, allRestaurants) {
-  const filterData = allRestaurants.filter((restaurant) =>
-    restaurant?.info?.name?.toLowerCase().includes(searchText.toLowerCase())
-  );
-  return filterData;
-}
+import { filterData } from "../utils/helper";
+import useRestaurantsList from "../utils/useRestaurantsList";
+import useOnline from "../utils/useOnline";
 
 // no key (not acceptable)<<<<<<<<<<< index key(last option) <<<<< unquie key (best practice)
 const Body = () => {
-  const [searchText, setSearchText] = useState(); // returns => [var name, func^ to update var]
-  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
-  const [allRestaurants, setAllRestaurants] = useState([]);
+  const [searchText, setSearchText] = useState(""); // returns => [var name, func^ to update var]
+  const [filteredRestaurants, setFilteredRestaurants] = useState(null);
+  const [errMessage, setErrMessage] = useState("");
+  const [allRestaurants, filteredRes] = useRestaurantsList();
 
-  console.log(useState());
-
-  // empty dependency array => once after render
-  // dep array [searchText] => once after initial render + everytime after searchtext gets updated
-  useEffect(() => {
-    // API Call
-    getRestaurants();
-  }, []);
-
-  async function getRestaurants() {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=19.9974533&lng=73.78980229999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
-    );
-    const json = await data.json();
-    console.log(json);
-    // Optional Chaining
-    setAllRestaurants(
-      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-    setFilteredRestaurants(
-      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
+  function searchData(searchText, allRestaurants) {
+    if (searchText !== "") {
+      // need to filter the date
+      const data = filterData(searchText, allRestaurants);
+      // update the data
+      setFilteredRestaurants(data);
+      setErrMessage("");
+      if (data.length == 0) {
+        setErrMessage("Not found");
+      }
+    } else {
+      setErrMessage("");
+      setFilteredRestaurants(allRestaurants);
+    }
   }
-
+  const isOnline = useOnline();
+  console.log(isOnline);
+  if (!isOnline) {
+    return <h1>🔴 Offline, please check your internet connection!!</h1>;
+  }
   // not render component (Early return )
   if (!allRestaurants)
     return (
@@ -56,7 +44,6 @@ const Body = () => {
   // Conditional Rendering
   // If restaurent is empty => Shimmer UI
   // If restaurant has data => actual data UI
-
   return allRestaurants.length == 0 ? (
     <Shimmer />
   ) : (
@@ -76,19 +63,17 @@ const Body = () => {
           className="search-btn"
           onClick={() => {
             // need to filter the date
-            const data = filterData(searchText, allRestaurants);
+            searchData(searchText, allRestaurants);
             // update the data
-            setFilteredRestaurants(data);
           }}
         >
           Search
         </button>
       </div>
+      {errMessage && <div>{errMessage}</div>}
       <div className="restaurant-list">
-        {filteredRestaurants.length == 0 ? (
-          <h2>Not found</h2>
-        ) : (
-          filteredRestaurants.map((restaurant) => {
+        {(filteredRestaurants == null ? filteredRes : filteredRestaurants).map(
+          (restaurant) => {
             return (
               <Link
                 to={"/restaurant/" + restaurant.info.id}
@@ -97,7 +82,7 @@ const Body = () => {
                 <RestaurantCard {...restaurant.info} />
               </Link>
             );
-          })
+          }
         )}
       </div>
     </>

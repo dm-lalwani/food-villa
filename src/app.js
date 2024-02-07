@@ -1,16 +1,19 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/Body";
 import Footer from "./components/Footer";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
-import About from "./components/About";
 import Contact from "./components/Contact";
 import Error from "./components/Error";
 import RestMenu from "./components/RestMenu";
 import ProfileClass from "./components/ProfileClass";
 import Profile from "./components/Profile";
 import Login from "./components/Login";
+import Shimmer from "./components/Shimmer";
+
+const About = lazy(() => import("./components/About"));
+const InstaMart = lazy(() => import("./components/InstaMart"));
 
 /**
     Header
@@ -48,7 +51,11 @@ const appRouter = createBrowserRouter([
     children: [
       {
         path: "/about",
-        element: <About />,
+        element: (
+          <Suspense fallback={<h1>Loading...</h1>}>
+            <About />
+          </Suspense>
+        ),
         children: [
           {
             path: "profile",
@@ -71,6 +78,14 @@ const appRouter = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/instamart",
+        element: (
+          <Suspense fallback={<Shimmer />}>
+            <InstaMart />
+          </Suspense>
+        ),
       },
     ],
   },
