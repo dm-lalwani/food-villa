@@ -2,7 +2,7 @@ import RestaurantCard from "./RestaurantCard";
 import { useState, useEffect } from "react"; // Named Import
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
-import { filterData } from "../utils/helper";
+import { filterData, filterTopRest } from "../utils/helper";
 import useRestaurantsList from "../utils/useRestaurantsList";
 import useOnline from "../utils/useOnline";
 
@@ -12,6 +12,13 @@ const Body = () => {
   const [filteredRestaurants, setFilteredRestaurants] = useState(null);
   const [errMessage, setErrMessage] = useState("");
   const [allRestaurants, filteredRes] = useRestaurantsList();
+  const [navBarHeight, setNavBarHeight] = useState(0);
+
+  useEffect(() => {
+    const navbar = document.getElementById("navBarId");
+    const height = navbar.offsetHeight;
+    setNavBarHeight(height + 10);
+  }, []);
 
   function searchData(searchText, allRestaurants) {
     if (searchText !== "") {
@@ -28,15 +35,15 @@ const Body = () => {
       setFilteredRestaurants(allRestaurants);
     }
   }
+
   const isOnline = useOnline();
-  console.log(isOnline);
   if (!isOnline) {
     return <h1>🔴 Offline, please check your internet connection!!</h1>;
   }
   // not render component (Early return )
   if (!allRestaurants)
     return (
-      <h2>
+      <h2 className="container" style={{ marginTop: `${navBarHeight}px` }}>
         Not able to fetch restaurants from API check chaining of JSON data
       </h2>
     );
@@ -48,43 +55,60 @@ const Body = () => {
     <Shimmer />
   ) : (
     <>
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Search"
-          className="search-input"
-          value={searchText}
-          onChange={(e) => {
-            // e.target.value => whatever you write in input
-            setSearchText(e.target.value);
-          }}
-        />
-        <button
-          className="search-btn"
-          onClick={() => {
-            // need to filter the date
-            searchData(searchText, allRestaurants);
-            // update the data
-          }}
-        >
-          Search
-        </button>
-      </div>
-      {errMessage && <div>{errMessage}</div>}
-      <div className="restaurant-list">
-        {(filteredRestaurants == null ? filteredRes : filteredRestaurants).map(
-          (restaurant) => {
+      <section className="container" style={{ marginTop: `${navBarHeight}px` }}>
+        <div className="flex items-center">
+          <div className="m-5">
+            <input
+              type="text"
+              placeholder="Search for restaurants"
+              className="border border-solid border-gray-400 rounded p-2"
+              value={searchText}
+              onChange={(e) => {
+                // e.target.value => whatever you write in input
+                setSearchText(e.target.value);
+              }}
+            />
+            <button
+              className="m-3 bg-gray-400 p-2 rounded"
+              onClick={() => {
+                // need to filter the date
+                searchData(searchText, allRestaurants);
+                // update the data
+              }}
+            >
+              Search
+            </button>
+          </div>
+          <div className="mx-5">
+            <button
+              className="bg-gray-400 p-2 rounded"
+              onClick={() => {
+                const topResData = filterTopRest(allRestaurants);
+                setFilteredRestaurants(topResData);
+              }}
+            >
+              Top Rated Restaurant
+            </button>
+          </div>
+        </div>
+        {errMessage && <div>{errMessage}</div>}
+        <div className="flex flex-wrap">
+          {(filteredRestaurants == null
+            ? filteredRes
+            : filteredRestaurants
+          ).map((restaurant) => {
             return (
               <Link
                 to={"/restaurant/" + restaurant.info.id}
                 key={restaurant.info.id}
               >
-                <RestaurantCard {...restaurant.info} />
+                {/* <RestaurantCard {...restaurant.info} /> */}
+                <RestaurantCard resData={restaurant.info} />
               </Link>
             );
-          }
-        )}
-      </div>
+          })}
+        </div>
+      </section>
     </>
   );
 };
