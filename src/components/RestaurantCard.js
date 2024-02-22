@@ -87,4 +87,18 @@ const RestaurantCard = (props) => {
   );
 };
 
+// Higher Order Component
+export const withPureVegLabel = (RestaurantCard) => {
+  return (props) => {
+    return (
+      <div className="relative">
+        <label className="absolute top-1 left-0 text-white bg-green-500 rounded-lg py-1 px-2 text-sm z-[2]">
+          Pure Veg
+        </label>
+        <RestaurantCard {...props} />
+      </div>
+    );
+  };
+};
+
 export default RestaurantCard;

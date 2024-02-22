@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Restauraunt_CDN_URL } from "../config";
 const useRestaurantsList = () => {
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [allRestaurants, setAllRestaurants] = useState([]);
@@ -11,9 +12,7 @@ const useRestaurantsList = () => {
 
   async function getRestaurants() {
     try {
-      const data = await fetch(
-        "https://www.swiggy.com/dapi/restaurants/list/v5?lat=19.9974533&lng=73.78980229999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
-      );
+      const data = await fetch(Restauraunt_CDN_URL);
       const json = await data.json();
       // console.log(json);
       // Optional Chaining

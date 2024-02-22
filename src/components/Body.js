@@ -1,8 +1,8 @@
-import RestaurantCard from "./RestaurantCard";
-import { useState, useEffect } from "react"; // Named Import
+import RestaurantCard, { withPureVegLabel } from "./RestaurantCard";
+import { useState } from "react"; // Named Import
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
-import { filterData, filterTopRest } from "../utils/helper";
+import { filterData, sortTopRest } from "../utils/helper";
 import useRestaurantsList from "../utils/useRestaurantsList";
 import useOnline from "../utils/useOnline";
 
@@ -12,13 +12,8 @@ const Body = () => {
   const [filteredRestaurants, setFilteredRestaurants] = useState(null);
   const [errMessage, setErrMessage] = useState("");
   const [allRestaurants, filteredRes] = useRestaurantsList();
-  const [navBarHeight, setNavBarHeight] = useState(0);
-
-  useEffect(() => {
-    const navbar = document.getElementById("navBarId");
-    const height = navbar.offsetHeight;
-    setNavBarHeight(height + 10);
-  }, []);
+  const RestaurantCardPureVeg = withPureVegLabel(RestaurantCard);
+  const [isSort, setIsSort] = useState(false);
 
   function searchData(searchText, allRestaurants) {
     if (searchText !== "") {
@@ -43,7 +38,7 @@ const Body = () => {
   // not render component (Early return )
   if (!allRestaurants)
     return (
-      <h2 className="container" style={{ marginTop: `${navBarHeight}px` }}>
+      <h2>
         Not able to fetch restaurants from API check chaining of JSON data
       </h2>
     );
@@ -55,7 +50,7 @@ const Body = () => {
     <Shimmer />
   ) : (
     <>
-      <section className="container" style={{ marginTop: `${navBarHeight}px` }}>
+      <section>
         <div className="flex items-center">
           <div className="m-5">
             <input
@@ -80,15 +75,28 @@ const Body = () => {
             </button>
           </div>
           <div className="mx-5">
-            <button
-              className="bg-gray-400 p-2 rounded"
-              onClick={() => {
-                const topResData = filterTopRest(allRestaurants);
-                setFilteredRestaurants(topResData);
-              }}
-            >
-              Top Rated Restaurant
-            </button>
+            {isSort ? (
+              <button
+                className="bg-orange-500 p-2 rounded text-white"
+                onClick={() => {
+                  setFilteredRestaurants(allRestaurants);
+                  setIsSort(false);
+                }}
+              >
+                Sort By Rating X
+              </button>
+            ) : (
+              <button
+                className="bg-gray-400 p-2 rounded"
+                onClick={() => {
+                  const topResData = sortTopRest(allRestaurants);
+                  setFilteredRestaurants(topResData);
+                  setIsSort(true);
+                }}
+              >
+                Sort By Rating
+              </button>
+            )}
           </div>
         </div>
         {errMessage && <div>{errMessage}</div>}
@@ -102,8 +110,15 @@ const Body = () => {
                 to={"/restaurant/" + restaurant.info.id}
                 key={restaurant.info.id}
               >
+                {
+                  /* If the restaurant is pure veg then add a pure veg label */
+                  restaurant.info.veg ? (
+                    <RestaurantCardPureVeg resData={restaurant.info} />
+                  ) : (
+                    <RestaurantCard resData={restaurant.info} />
+                  )
+                }
                 {/* <RestaurantCard {...restaurant.info} /> */}
-                <RestaurantCard resData={restaurant.info} />
               </Link>
             );
           })}

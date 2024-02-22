@@ -23,7 +23,7 @@ const Header = () => {
 
   return (
     <header
-      className="shadow-xl fixed top-0 left-0 w-full bg-white"
+      className="shadow-xl fixed top-0 left-0 w-full bg-white z-[3]"
       id="navBarId"
     >
       <div className="container">
