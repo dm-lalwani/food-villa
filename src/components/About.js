@@ -2,6 +2,7 @@
 import ProfileClass from "./ProfileClass";
 import Profile from "./Profile";
 import { Component } from "react";
+import userContext from "../utils/userContext";
 class About extends Component {
   // constructor(props) {
   //   super(props);
@@ -21,6 +22,13 @@ class About extends Component {
     return (
       <>
         <h1>This is a About Us Page!!!</h1>
+        <userContext.Consumer>
+          {({ user }) => (
+            <h4>
+              {user.name} - {user.email}
+            </h4>
+          )}
+        </userContext.Consumer>
         <h2>I don't know what else to write..</h2>
         {/* <Outlet /> */}
         <Profile name={"DMLalwani"} />

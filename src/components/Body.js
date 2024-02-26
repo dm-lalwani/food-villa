@@ -1,10 +1,11 @@
 import RestaurantCard, { withPureVegLabel } from "./RestaurantCard";
-import { useState } from "react"; // Named Import
+import { useState, useContext } from "react"; // Named Import
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import { filterData, sortTopRest } from "../utils/helper";
 import useRestaurantsList from "../utils/useRestaurantsList";
 import useOnline from "../utils/useOnline";
+import userContext from "../utils/userContext";
 
 // no key (not acceptable)<<<<<<<<<<< index key(last option) <<<<< unquie key (best practice)
 const Body = () => {
@@ -14,6 +15,8 @@ const Body = () => {
   const [allRestaurants, filteredRes] = useRestaurantsList();
   const RestaurantCardPureVeg = withPureVegLabel(RestaurantCard);
   const [isSort, setIsSort] = useState(false);
+
+  const { user, setUser } = useContext(userContext);
 
   function searchData(searchText, allRestaurants) {
     if (searchText !== "") {
@@ -97,6 +100,34 @@ const Body = () => {
                 Sort By Rating
               </button>
             )}
+          </div>
+          <div className="m-5">
+            <input
+              type="text"
+              className="border border-solid border-gray-400 rounded p-2"
+              value={user.name}
+              onChange={(e) => {
+                // e.target.value => whatever you write in input
+                setUser({
+                  ...user,
+                  name: e.target.value,
+                });
+              }}
+            />
+          </div>
+          <div className="m-5">
+            <input
+              type="text"
+              className="border border-solid border-gray-400 rounded p-2"
+              value={user.email}
+              onChange={(e) => {
+                // e.target.value => whatever you write in input
+                setUser({
+                  ...user,
+                  email: e.target.value,
+                });
+              }}
+            />
           </div>
         </div>
         {errMessage && <div>{errMessage}</div>}

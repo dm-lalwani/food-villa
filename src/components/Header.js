@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Logo from "../assets/img/foodVilla.png";
 import { Link, useNavigate } from "react-router-dom";
 import useOnline from "../utils/useOnline";
+import userContext from "../utils/userContext";
 
 const HeaderLogo = () => (
   <div className="">
@@ -20,6 +21,7 @@ const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
   const isOnline = useOnline();
+  const { user } = useContext(userContext);
 
   return (
     <header
@@ -63,6 +65,7 @@ const Header = () => {
                 Login
               </button>
             )}
+            <div className="font-bold">{user.name}</div>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState, useEffect } from "react";
+import React, { lazy, Suspense, useState, useEffect, useContext } from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/Body";
@@ -11,6 +11,7 @@ import ProfileClass from "./components/ProfileClass";
 import Profile from "./components/Profile";
 import Login from "./components/Login";
 import Shimmer from "./components/Shimmer";
+import userContext from "./utils/userContext";
 
 const About = lazy(() => import("./components/About"));
 const InstaMart = lazy(() => import("./components/InstaMart"));
@@ -35,19 +36,30 @@ const InstaMart = lazy(() => import("./components/InstaMart"));
 
 const AppLayout = () => {
   const [navBarHeight, setNavBarHeight] = useState(0);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     const navbar = document.getElementById("navBarId");
     const height = navbar.offsetHeight;
     setNavBarHeight(height + 20);
+
+    // Make a API call send username & password
+    const data = {
+      name: "DML",
+      email: "dml@gmail.com",
+    };
+    setUser(data);
   }, []);
+  // console.log(user);
   return (
     <>
-      <Header />
-      <div className="container" style={{ marginTop: `${navBarHeight}px` }}>
-        <Outlet />
-      </div>
-      <Footer />
+      <userContext.Provider value={{ user: user, setUser: setUser }}>
+        <Header />
+        <div className="container" style={{ marginTop: `${navBarHeight}px` }}>
+          <Outlet />
+        </div>
+        <Footer />
+      </userContext.Provider>
     </>
   );
 };

@@ -1,5 +1,5 @@
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { IMG_CDN_URL } from "../config";
 import Shimmer from "./Shimmer";
 import useRestaurant from "../utils/useRestaurant";
 import RestaurantMenuCategory from "./RestaurantMenuCategory";
@@ -7,12 +7,11 @@ import RestaurantMenuCategory from "./RestaurantMenuCategory";
 const RestMenu = () => {
   const { resId } = useParams();
   const restaurantInfo = useRestaurant(resId);
+  const [showIndex, setShowIndex] = useState(0);
 
   if (restaurantInfo === null) return <Shimmer />;
   const {
-    id,
     name,
-    cloudinaryImageId,
     costForTwoMessage,
     cuisines,
     areaName,
@@ -108,10 +107,15 @@ const RestMenu = () => {
         </div>
       </div>
       <div>
-        {menuCategory.map((item) => (
+        {menuCategory.map((item, index) => (
+          // Controlled Component
           <RestaurantMenuCategory
             key={item?.card?.card?.title}
             {...item?.card?.card}
+            showItems={index === showIndex}
+            setShowIndex={() => {
+              setShowIndex((prevIndex) => (prevIndex === index ? -1 : index));
+            }}
           />
         ))}
       </div>
