@@ -25,13 +25,15 @@ const RestaurantMenuCategory = ({
         <span>{showItems ? "⬆️" : "⬇️"}</span>
       </div>
       <div>
-        {showItems &&
-          itemCards.map((items) => (
-            <MenuItemList
-              key={items?.card?.info?.id}
-              menuItemsData={items?.card?.info}
-            />
-          ))}
+        {
+          showItems && <MenuItemList menuItemsData={itemCards} />
+          // itemCards.map((items) => (
+          //   <MenuItemList
+          //     key={items?.card?.info?.id}
+          //     menuItemsData={items?.card?.info}
+          //   />
+          //))}
+        }
       </div>
     </div>
   );

@@ -18,10 +18,10 @@ const RestMenu = () => {
     city,
     avgRating,
     totalRatingsString,
-  } = restaurantInfo?.cards[2]?.card?.card?.info;
+  } = restaurantInfo?.cards[0]?.card?.card?.info;
 
   const menuCategory =
-    restaurantInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+    restaurantInfo?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
       (c) =>
         c.card?.card?.["@type"] ===
         "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"

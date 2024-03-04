@@ -3,6 +3,7 @@ import Logo from "../assets/img/foodVilla.png";
 import { Link, useNavigate } from "react-router-dom";
 import useOnline from "../utils/useOnline";
 import userContext from "../utils/userContext";
+import { useSelector } from "react-redux";
 
 const HeaderLogo = () => (
   <div className="">
@@ -22,6 +23,9 @@ const Header = () => {
   const navigate = useNavigate();
   const isOnline = useOnline();
   const { user } = useContext(userContext);
+
+  // subsscribing to the store with selector
+  const cartItems = useSelector((store) => store.cart.items);
 
   return (
     <header
@@ -44,7 +48,7 @@ const Header = () => {
                 <Link to="/contact">Contact</Link>
               </li>
               <li className="px-3">
-                <Link to="#">Cart</Link>
+                <Link to="/cart">Cart ({cartItems.length} items)</Link>
               </li>
               <li className="px-3">
                 <Link to="/instamart">Grocery</Link>
