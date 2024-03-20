@@ -4,7 +4,7 @@ import { addItem } from "../utils/cartSlice";
 
 const MenuItemList = ({ menuItemsData }) => {
   // const { name, price, defaultPrice, description, imageId, id } = menuItemsData;
-  console.log(menuItemsData);
+  // console.log(menuItemsData);
 
   const dispatch = useDispatch();
   const handleAddItem = (item) => {
@@ -17,7 +17,7 @@ const MenuItemList = ({ menuItemsData }) => {
         const { name, price, defaultPrice, description, imageId, id } =
           item.card.info;
         return (
-          <div key={id}>
+          <div data-testid="foodItems" key={id}>
             <div className="flex justify-between">
               <div className="max-w-[calc(100%-144px)]">
                 <div className="font-medium text-lg">{name}</div>
@@ -32,11 +32,13 @@ const MenuItemList = ({ menuItemsData }) => {
                       src={IMG_CDN_URL + imageId}
                       alt="menuItem image"
                     />
-                    <div
-                      className="absolute bg-white text-green-500 left-2/4 translate-x-[-50%] bottom-3 w-24 min-h-9 flex justify-center items-center font-bold text-xs shadow-lg rounded cursor-pointer border-[#d4d5d9] border"
-                      onClick={() => handleAddItem(item)}
-                    >
-                      ADD+
+                    <div className="absolute">
+                      <button
+                        className="bg-white text-green-500 left-2/4 translate-x-[-50%] bottom-3 w-24 min-h-9 flex justify-center items-center font-bold text-xs shadow-lg rounded cursor-pointer border-[#d4d5d9] border"
+                        onClick={() => handleAddItem(item)}
+                      >
+                        ADD+
+                      </button>
                     </div>
                   </>
                 ) : (

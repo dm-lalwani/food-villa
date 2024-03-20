@@ -12,7 +12,10 @@ const RestaurantCard = (props) => {
   }
 
   return (
-    <div className="m-4 w-[255px] hover:scale-95 transition-all">
+    <div
+      data-testid="resCard"
+      className="m-4 w-[255px] hover:scale-95 transition-all"
+    >
       <img
         className="w-[255px] object-cover h-[169px] rounded-lg"
         alt="restaurant-image"
@@ -66,7 +69,9 @@ const RestaurantCard = (props) => {
               </defs>
             </svg>
           </div>
-          <div className="mx-1">{avgRating} •</div>
+          <div className="mx-1" data-testid="resRating">
+            {avgRating} •
+          </div>
           <div className="">
             {sla.deliveryTime}-{sla.deliveryTime + 5} mins
           </div>

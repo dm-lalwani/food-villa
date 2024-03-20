@@ -57,12 +57,13 @@ const Body = () => {
         <div className="flex items-center">
           <div className="m-5">
             <input
+              data-testid="searchInput"
               type="text"
               placeholder="Search for restaurants"
               className="border border-solid border-gray-400 rounded p-2"
               value={searchText}
               onChange={(e) => {
-                // e.target.value => whatever you write in input
+                // e.target.value => whatever you write in input It is given to us by browser
                 setSearchText(e.target.value);
               }}
             />
